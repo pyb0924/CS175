@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
