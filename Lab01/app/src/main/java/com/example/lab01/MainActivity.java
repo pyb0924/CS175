@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -27,37 +28,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         dataInit();
 
-        Button cancelButton=(Button)findViewById(R.id.cbutton);
-
         RecyclerView recyclerView=(RecyclerView) findViewById(R.id.rv);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        ItemAdapter adapter=new ItemAdapter(itemList);
+        ItemAdapter adapter=new ItemAdapter(this,itemList);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
 
         SearchView searchView=(SearchView) findViewById(R.id.sv);
         searchView.setQueryHint("Search");
-        searchView.setIconified(false);
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO jump to new Activity
-            }
-        });
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // TODO jump to new Activity
+                searchView.clearFocus();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
+                Log.e("searchview","text changed");
                 return false;
+            }
+        });
+
+        Button cancelButton=(Button)findViewById(R.id.cbutton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setQuery("",false);
+                searchView.clearFocus();
             }
         });
     }
