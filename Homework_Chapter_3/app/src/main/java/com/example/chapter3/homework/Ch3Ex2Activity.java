@@ -1,12 +1,16 @@
 package com.example.chapter3.homework;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -137,13 +141,26 @@ public class Ch3Ex2Activity extends AppCompatActivity {
         animator1.setRepeatCount(ObjectAnimator.INFINITE);
         animator1.setRepeatMode(ObjectAnimator.REVERSE);
 
-        // TODO ex2-1：在这里实现另一个 ObjectAnimator，对 target 控件的大小进行缩放，从 1 到 2 循环
+        ObjectAnimator animator2X=ObjectAnimator.ofFloat(target,
+                "scaleX",1.0f,2.0f);
+        animator2X.setDuration(Integer.parseInt(durationSelector.getText().toString()));
+        animator2X.setRepeatCount(ObjectAnimator.INFINITE);
+        animator2X.setRepeatMode(ValueAnimator.REVERSE);
 
-        // TODO ex2-2：在这里实现另一个 ObjectAnimator，对 target 控件的透明度进行修改，从 1 到 0.5f 循环
+        ObjectAnimator animator2Y=ObjectAnimator.ofFloat(target,
+                "scaleY",1.0f,2.0f);
+        animator2Y.setDuration(Integer.parseInt(durationSelector.getText().toString()));
+        animator2Y.setRepeatCount(ValueAnimator.INFINITE);
+        animator2Y.setRepeatMode(ValueAnimator.REVERSE);
 
-        // TODO ex2-3: 将上面创建的其他 ObjectAnimator 都添加到 AnimatorSet 中
-        animatorSet = new AnimatorSet();
-        animatorSet.playTogether(animator1);
+        ObjectAnimator animator3=ObjectAnimator.ofFloat(target,
+                "alpha",1.0f,0.5f);
+        animator3.setDuration(Integer.parseInt(durationSelector.getText().toString()));
+        animator3.setRepeatMode(ValueAnimator.REVERSE);
+        animator3.setRepeatCount(ValueAnimator.INFINITE);
+
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.playTogether(animator1,animator2X,animator2Y,animator3);
         animatorSet.start();
     }
 }
