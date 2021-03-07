@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<String> itemList=new ArrayList<>();
+    private final List<String> itemList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         ItemAdapter adapter=new ItemAdapter(this,itemList);
         recyclerView.setAdapter(adapter);
-
 
         SearchView searchView=(SearchView) findViewById(R.id.sv);
         searchView.setQueryHint("Search");
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                Log.e("searchview","text changed");
+                //Log.e("searchView","text changed");
                 return false;
             }
         });
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void dataInit() {
         for (int i = 0; i < 100; i++) {
-            String item=String.format("这是第%d行",i+1);
+            @SuppressLint("DefaultLocale") String item=String.format("这是第%d行",i+1);
             itemList.add(item);
         }
     }
