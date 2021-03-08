@@ -19,8 +19,6 @@ public class Ch3Ex3Activity extends AppCompatActivity {
 
         // TODO: ex3-1. 添加 ViewPager 和 Fragment 做可滑动界面
 
-
-
         // TODO: ex3-2, 添加 TabLayout 支持 Tab
     }
 }
