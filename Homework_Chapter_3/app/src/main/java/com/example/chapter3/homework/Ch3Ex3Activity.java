@@ -2,7 +2,13 @@ package com.example.chapter3.homework;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * 使用 ViewPager 和 Fragment 做一个简单版的好友列表界面
@@ -17,8 +23,28 @@ public class Ch3Ex3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ch3ex3);
 
-        // TODO: ex3-1. 添加 ViewPager 和 Fragment 做可滑动界面
+        //  ex3-1. 添加 ViewPager 和 Fragment 做可滑动界面
+        ViewPager pager = findViewById(R.id.view_pager);
+        pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return new PlaceholderFragment();
+            }
 
-        // TODO: ex3-2, 添加 TabLayout 支持 Tab
+            @Override
+            public int getCount() {
+                return 3;
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return getString(R.string.hello_blank_fragment) + position;
+            }
+        });
+
+        //  ex3-2, 添加 TabLayout 支持 Tab
+        TabLayout tab = findViewById(R.id.tab_layout);
+        tab.setupWithViewPager(pager);
     }
 }

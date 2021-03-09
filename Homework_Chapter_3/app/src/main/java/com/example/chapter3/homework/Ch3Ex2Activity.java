@@ -141,26 +141,26 @@ public class Ch3Ex2Activity extends AppCompatActivity {
         animator1.setRepeatCount(ObjectAnimator.INFINITE);
         animator1.setRepeatMode(ObjectAnimator.REVERSE);
 
-        ObjectAnimator animator2X=ObjectAnimator.ofFloat(target,
-                "scaleX",1.0f,2.0f);
+        ObjectAnimator animator2X = ObjectAnimator.ofFloat(target,
+                "scaleX", 1.0f, 2.0f);
         animator2X.setDuration(Integer.parseInt(durationSelector.getText().toString()));
         animator2X.setRepeatCount(ObjectAnimator.INFINITE);
         animator2X.setRepeatMode(ValueAnimator.REVERSE);
 
-        ObjectAnimator animator2Y=ObjectAnimator.ofFloat(target,
-                "scaleY",1.0f,2.0f);
+        ObjectAnimator animator2Y = ObjectAnimator.ofFloat(target,
+                "scaleY", 1.0f, 2.0f);
         animator2Y.setDuration(Integer.parseInt(durationSelector.getText().toString()));
         animator2Y.setRepeatCount(ValueAnimator.INFINITE);
         animator2Y.setRepeatMode(ValueAnimator.REVERSE);
 
-        ObjectAnimator animator3=ObjectAnimator.ofFloat(target,
-                "alpha",1.0f,0.5f);
+        ObjectAnimator animator3 = ObjectAnimator.ofFloat(target,
+                "alpha", 1.0f, 0.5f);
         animator3.setDuration(Integer.parseInt(durationSelector.getText().toString()));
         animator3.setRepeatMode(ValueAnimator.REVERSE);
         animator3.setRepeatCount(ValueAnimator.INFINITE);
 
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.playTogether(animator1,animator2X,animator2Y,animator3);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(animator1, animator2X, animator2Y, animator3);
         animatorSet.start();
     }
 }
