@@ -2,15 +2,16 @@ package com.ss.android.ugc.demo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,24 +19,35 @@ public class MainActivity extends AppCompatActivity {
     private static final int MSG_DOWNLOAD_SUCCESS = 1;
     private static final int MSG_DOWNLOAD_FAIL = 2;
 
-    private final Handler mHandler = new Handler() {
-        @Override public void handleMessage(@NonNull Message msg) {
+    private static class MyHandler extends Handler {
+        private final WeakReference<MainActivity> mActivity;
+
+        public MyHandler(@NonNull Looper looper, MainActivity activity) {
+            super(looper);
+            this.mActivity = new WeakReference<MainActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
+            MainActivity activity = mActivity.get();
             switch (msg.what) {
                 case MSG_START_DOWNLOAD:
-                    mText.setText(R.string.start_download);
+                    activity.mText.setText(R.string.start_download);
                     break;
                 case MSG_DOWNLOAD_SUCCESS:
-                    mText.setText(R.string.download_success);
+                    activity.mText.setText(R.string.download_success);
                     break;
                 case MSG_DOWNLOAD_FAIL:
-                    mText.setText(R.string.download_fail);
+                    activity.mText.setText(R.string.download_fail);
                     break;
                 default:
                     break;
             }
         }
-    };
+    }
+
+    private final MyHandler mHandler=new MyHandler(Looper.getMainLooper(),this);
 
     private TextView mText;
     private TextView mClockTv;
@@ -44,14 +56,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        //TODO 时钟页面
-//        mClockTv = findViewById(R.id.clock);
-//        mClockTv.setOnClickListener(new View.OnClickListener() {
-//            @Override public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, ClockActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+//        // 时钟页面
+        mClockTv = findViewById(R.id.clock);
+        mClockTv.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClockActivity.class);
+                startActivity(intent);
+            }
+        });
         mText = findViewById(R.id.text);
         //Demo 1: Handler
 //        new DownloadThread("http://www.xxx.mp4").start();
@@ -66,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class DownloadThread extends Thread {
-        private String videoId;
+        private final String videoId;
 
         public DownloadThread(String videoId) {
             this.videoId = videoId;

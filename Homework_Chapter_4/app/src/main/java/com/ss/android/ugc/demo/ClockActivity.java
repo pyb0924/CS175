@@ -1,24 +1,26 @@
 package com.ss.android.ugc.demo;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 
 import com.ss.android.ugc.demo.widget.Clock;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ClockActivity extends AppCompatActivity {
+import java.lang.ref.WeakReference;
 
-    private View mRootView;
-    private Clock mClockView;
+public class ClockActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock);
-        mRootView = findViewById(R.id.root);
-        mClockView = findViewById(R.id.clock);
-
+        Clock mClockView = findViewById(R.id.clock);
+        new DrawThread("drawThread", mClockView).start();
     }
 }
