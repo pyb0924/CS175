@@ -37,7 +37,6 @@ public class Clock extends View {
     private float SECOND_POINTER_LENGTH;
     private float HOUR_VALUE_RADIUS;
     private float UNIT_DEGREE = (float) (6 * Math.PI / 180);// 一个小格的度数
-    private boolean first_flag=true;
     private int mWidth, mCenterX, mCenterY, mRadius;
 
     private int degreesColor;
@@ -100,10 +99,9 @@ public class Clock extends View {
         SECOND_POINTER_LENGTH = PANEL_RADIUS - 150;
         HOUR_VALUE_RADIUS=PANEL_RADIUS-100;
 
-        if(first_flag){
-            drawDegrees(canvas);
-            drawHoursValues(canvas);
-        }
+
+        drawDegrees(canvas);
+        drawHoursValues(canvas);
         drawNeedles(canvas);
 
         // todo 1: 每一秒刷新一次，让指针动起来
