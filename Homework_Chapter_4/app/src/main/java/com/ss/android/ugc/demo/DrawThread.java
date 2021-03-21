@@ -28,7 +28,7 @@ public class DrawThread extends HandlerThread implements Handler.Callback {
     @Override
     public boolean handleMessage(@NonNull Message msg) {
         if(msg.what==MSG_DRAW){
-            mClock.invalidate();
+            mClock.postInvalidate();
             mHandler.sendEmptyMessageDelayed(MSG_DRAW,1000);
         }
         return true;

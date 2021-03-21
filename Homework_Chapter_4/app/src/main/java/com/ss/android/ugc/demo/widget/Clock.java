@@ -99,12 +99,11 @@ public class Clock extends View {
         SECOND_POINTER_LENGTH = PANEL_RADIUS - 150;
         HOUR_VALUE_RADIUS=PANEL_RADIUS-100;
 
-
         drawDegrees(canvas);
         drawHoursValues(canvas);
         drawNeedles(canvas);
 
-        // todo 1: 每一秒刷新一次，让指针动起来
+        // 每一秒刷新一次，让指针动起来
 
     }
 
