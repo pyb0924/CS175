@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bytedance.practice5.model.MessageListResponse;
 import com.bytedance.practice5.model.UploadResponse;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import okhttp3.MediaType;
@@ -85,7 +88,10 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void initNetwork() {
-        //TODO 3
+        Retrofit retrofit =new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        api=retrofit.create(IApi.class);
         // 创建Retrofit实例
         // 生成api对象
     }
@@ -120,9 +126,45 @@ public class UploadActivity extends AppCompatActivity {
             Toast.makeText(this, "文件过大", Toast.LENGTH_SHORT).show();
             return;
         }
-        //TODO 5
+
         // 使用api.submitMessage()方法提交留言
         // 如果提交成功则关闭activity，否则弹出toast
+        MultipartBody.Part from_part=MultipartBody.Part.createFormData("from",Constants.USER_NAME);
+        MultipartBody.Part to_part=MultipartBody.Part.createFormData("to",to);
+        MultipartBody.Part content_part=MultipartBody.Part.createFormData("content",content);
+        MultipartBody.Part image_part=MultipartBody.Part.createFormData(
+                "image","cover.png",
+                RequestBody.create(MediaType.parse("multipart/form-data"),coverImageData));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Call<UploadResponse> call = api.submitMessage(
+                        Constants.STUDENT_ID,"",from_part,to_part,
+                        content_part,image_part,Constants.token
+                );
+                try {
+                    Response<UploadResponse> response=call.execute();
+                    if (response.isSuccessful() && response.body().success){
+                        UploadActivity.this.finish();
+                        Log.e("MySubmit","Success");
+                    }else {
+                        new Handler(getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(UploadActivity.this,
+                                        "Upload Error",Toast.LENGTH_SHORT).show();
+                                Log.e("MySubmit","Fail");
+                            }
+                        });
+                    }
+
+                }catch (IOException e){
+                    Log.e("MySubmit","Error");
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 

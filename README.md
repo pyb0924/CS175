@@ -7,3 +7,9 @@
   - Ex2: 实现大小和透明度的属性动画。
   - Ex3: 用Viewpager和Fragment实现一个可滑动界面，并添加Tablayout支持和淡入淡出动效。
 - HW_Chapter4: 自定义View实现一个可自动刷新的时钟。
+- HW_Chapter5: 
+  - Ex1: 实现一个留言板
+    - 通过HttpUrlConnection拉取留言列表
+    - 通过Retrofit的方式实现提交留言
+  - Ex2: 用Socket方式实现简单的Head请求
+
