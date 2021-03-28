@@ -1,4 +1,4 @@
-package com.example.homework_chapter_6;
+package com.byted.camp.todolist;
 
 import org.junit.Test;
 
