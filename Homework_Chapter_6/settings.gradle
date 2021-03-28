@@ -1,1 +1,2 @@
 include ':app'
+rootProject.name = "Homework_Chapter_6"
