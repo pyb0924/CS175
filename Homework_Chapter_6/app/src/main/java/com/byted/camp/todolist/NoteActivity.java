@@ -3,6 +3,7 @@ package com.byted.camp.todolist;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,11 +37,18 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         setTitle(R.string.take_a_note);
+        Intent intent=getIntent();
+        String text=intent.getStringExtra("content");
+
+        if(!text.isEmpty()){
+
+        }
 
         dbHelper = new TodoDbHelper(this);
         database = dbHelper.getWritableDatabase();
 
         editText = findViewById(R.id.edit_text);
+        editText.setText(text);
         editText.setFocusable(true);
         editText.requestFocus();
         InputMethodManager inputManager = (InputMethodManager)

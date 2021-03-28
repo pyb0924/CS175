@@ -1,5 +1,6 @@
 package com.byted.camp.todolist.ui;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.byted.camp.todolist.MainActivity;
 import com.byted.camp.todolist.NoteOperator;
 import com.byted.camp.todolist.R;
 import com.byted.camp.todolist.beans.Note;
@@ -18,8 +20,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     private final NoteOperator operator;
     private final List<Note> notes = new ArrayList<>();
+    private Context mContext;
 
-    public NoteListAdapter(NoteOperator operator) {
+    public NoteListAdapter(Context context,NoteOperator operator) {
+        mContext=context;
         this.operator = operator;
     }
 
@@ -36,7 +40,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int pos) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_note, parent, false);
-        return new NoteViewHolder(itemView, operator);
+        return new NoteViewHolder(mContext,itemView, operator);
     }
 
     @Override

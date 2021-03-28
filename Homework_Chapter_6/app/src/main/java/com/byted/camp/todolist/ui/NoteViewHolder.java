@@ -1,5 +1,8 @@
 package com.byted.camp.todolist.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
@@ -9,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.byted.camp.todolist.MainActivity;
+import com.byted.camp.todolist.NoteActivity;
 import com.byted.camp.todolist.NoteOperator;
 import com.byted.camp.todolist.R;
 import com.byted.camp.todolist.beans.Note;
@@ -18,25 +23,27 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class NoteViewHolder extends RecyclerView.ViewHolder {
+    private static final int REQUEST_CODE_ADD = 1002;
 
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT =
             new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
 
     private final NoteOperator operator;
-
+    private Context mContext;
     private CheckBox checkBox;
     private TextView contentText;
     private TextView dateText;
     private View deleteBtn;
 
-    public NoteViewHolder(@NonNull View itemView, NoteOperator operator) {
+    public NoteViewHolder(Context context,@NonNull View itemView, NoteOperator operator) {
         super(itemView);
+        mContext =context;
         this.operator = operator;
-
         checkBox = itemView.findViewById(R.id.checkbox);
         contentText = itemView.findViewById(R.id.text_content);
         dateText = itemView.findViewById(R.id.text_date);
         deleteBtn = itemView.findViewById(R.id.btn_delete);
+
     }
 
     public void bind(final Note note) {
@@ -52,6 +59,19 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
                 operator.updateNote(note);
             }
         });
+        View.OnLongClickListener editListener=new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(mContext, NoteActivity.class);
+                intent.putExtra("content",contentText.getText());
+                operator.deleteNote(note);
+                ((Activity)mContext).startActivityForResult(intent,REQUEST_CODE_ADD);
+                return false;
+            }
+        };
+        contentText.setOnLongClickListener(editListener);
+        dateText.setOnLongClickListener(editListener);
+
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

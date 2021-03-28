@@ -2,7 +2,9 @@ package com.byted.camp.todolist;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -43,7 +45,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        int index = preferences.getInt("index", 0);
+        SharedPreferences.Editor editor = preferences.edit();
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("TodoList" + String.valueOf(index));
+        index++;
+        editor.putInt("index", index);
+        editor.apply();
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        notesAdapter = new NoteListAdapter(new NoteOperator() {
+        notesAdapter = new NoteListAdapter(MainActivity.this,new NoteOperator() {
             @Override
             public void deleteNote(Note note) {
                 MainActivity.this.deleteNote(note);
