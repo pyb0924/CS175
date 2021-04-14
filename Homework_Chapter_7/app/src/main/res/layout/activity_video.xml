@@ -5,21 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".VideoActivity">
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/video"
+        android:id="@+id/play"
+        android:text="Play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Video View"
         />
 
-
     <Button
-        android:id="@+id/image"
+        android:id="@+id/pause"
+        android:text="Pause"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Image View"
         />
 
 </LinearLayout>
