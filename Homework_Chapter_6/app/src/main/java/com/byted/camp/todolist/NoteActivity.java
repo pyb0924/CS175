@@ -40,10 +40,6 @@ public class NoteActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String text=intent.getStringExtra("content");
 
-        if(!text.isEmpty()){
-
-        }
-
         dbHelper = new TodoDbHelper(this);
         database = dbHelper.getWritableDatabase();
 
