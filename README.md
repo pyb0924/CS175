@@ -13,3 +13,6 @@
     - 通过Retrofit的方式实现提交留言
   - Ex2: 用Socket方式实现简单的Head请求
 
+- HW_Chapter6: Android存储：实现一个Todolist使用本地数据库
+- HW_Chapter7: Android多媒体，实现图片显示和视频播放器
+- HW_Chapter8: Android多媒体进阶，实现调用系统相机和自定义相机
