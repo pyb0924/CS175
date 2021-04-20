@@ -69,7 +69,8 @@ public class SystemRecordActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT,PathUtils.getUriForFile(this,mp4Path));
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            // todo
+            // to do
+            startActivityForResult(intent,REQUEST_CODE_RECORD);
         }
     }
 
@@ -103,7 +104,10 @@ public class SystemRecordActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // todo
+        if(requestCode==REQUEST_CODE_RECORD && resultCode==RESULT_OK){
+            play();
+        }
+        // to do
     }
 
     private void play() {

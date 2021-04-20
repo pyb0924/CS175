@@ -94,7 +94,12 @@ public class SystemCameraActivity extends AppCompatActivity {
     }
 
     private void takePhotoHasPermission() {
-        // todo
+        // to do
+        Intent intent =new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takeImagePath = getOutputMediaPath();
+        if(intent.resolveActivity(getPackageManager())!=null){
+            startActivityForResult(intent,REQUEST_CODE_TAKE_PHOTO_PATH);
+        }
     }
 
     @Override
@@ -126,9 +131,25 @@ public class SystemCameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_TAKE_PHOTO && resultCode == RESULT_OK) {
-            // todo
+            Bundle extras=data.getExtras();
+            Bitmap bitmap =(Bitmap) extras.get("data");
+            imageView.setImageBitmap(bitmap);
+            // to do
         } else if (requestCode == REQUEST_CODE_TAKE_PHOTO_PATH && resultCode == RESULT_OK) {
-            // todo
+            // to do
+            int viewWidth=imageView.getWidth();
+            int viewHeight=imageView.getHeight();
+            BitmapFactory.Options options =new BitmapFactory.Options();
+            options.inJustDecodeBounds=true;
+            BitmapFactory.decodeFile(takeImagePath,options);
+            int photoWidth=options.outWidth;
+            int photoHeight=options.outHeight;
+            int scale=Math.min(photoWidth/viewWidth,photoHeight/viewHeight);
+            options.inJustDecodeBounds=false;
+            options.inSampleSize=scale;
+            Bitmap bitmap=BitmapFactory.decodeFile(takeImagePath,options);
+            Bitmap rotateBitmap=PathUtils.rotateImage(bitmap,takeImagePath);
+            imageView.setImageBitmap(rotateBitmap);
         }
     }
 
